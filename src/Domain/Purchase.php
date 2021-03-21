@@ -66,4 +66,9 @@ class Purchase
     {
         return $this->status === PurchaseStatus::CONFIRMED;
     }
+
+    public function getTotalCost(): Money
+    {
+        return $this->totalCost;
+    }
 }

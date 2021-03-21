@@ -90,4 +90,34 @@ class PurchaseTest extends TestCase
 
         $purchaseOrder->confirm();
     }
+
+    public function testShouldCalculateTotalCostForSingleProduct(): void
+    {
+        $customer = new Customer(uniqid('c', true), 18);
+
+        $product = new Product(uniqid('p', true), Money::PLN(100));
+
+        $purchaseOrder = new Purchase(uniqid('pr', true), $customer);
+
+        $purchaseOrder->addProduct($product);
+
+        $this->assertEquals(100, $purchaseOrder->getTotalCost()->getAmount());
+    }
+
+    public function testShouldCalculateTotalCostForMultipleProducts(): void
+    {
+        $customer = new Customer(uniqid('c', true), 18);
+
+        $product = new Product(uniqid('p', true), Money::PLN(100));
+        $product2 = new Product(uniqid('p', true), Money::PLN(66));
+        $product3 = new Product(uniqid('p', true), Money::PLN(11));
+
+        $purchaseOrder = new Purchase(uniqid('pr', true), $customer);
+
+        $purchaseOrder->addProduct($product);
+        $purchaseOrder->addProduct($product2);
+        $purchaseOrder->addProduct($product3);
+
+        $this->assertEquals(177, $purchaseOrder->getTotalCost()->getAmount());
+    }
 }
