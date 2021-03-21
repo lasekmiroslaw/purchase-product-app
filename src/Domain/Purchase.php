@@ -21,6 +21,9 @@ class Purchase
 
     private string $status;
 
+    /**
+     * @throws CustomerNotAllowedToPurchase
+     */
     public function __construct(string $id, Customer $customer)
     {
         if (!$customer->isLegalAge()) {
@@ -33,7 +36,6 @@ class Purchase
     }
 
     /**
-     * @throws CustomerNotAllowedToPurchase
      * @throws ProductAlreadyPurchased
      */
     public function addProduct(Product $product): void
@@ -48,6 +50,9 @@ class Purchase
         $this->products[] = $product;
     }
 
+    /**
+     * @throws NoProductAddedToPurchase
+     */
     public function confirm(): void
     {
         if (\count($this->products) < 1) {
